@@ -16,8 +16,8 @@ class PickleParser(MyParser):
             load_string = pickle.load(file)
         return load_string
 
-    def loads(self, string):
-        return pickle.loads(string)
+    def loads(self, stringg):
+        return pickle.loads(stringg)
 
             
 
