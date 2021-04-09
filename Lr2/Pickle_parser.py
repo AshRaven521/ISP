@@ -1,7 +1,7 @@
 import pickle
-from Parser import Parser
+from my_parser import MyParser
 
-class PickleParser(Parser):
+class PickleParser(MyParser):
 
     def dump(self, save_file_path, obj):
         with open(save_file_path, 'wb') as file:

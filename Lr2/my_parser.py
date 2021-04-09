@@ -1,6 +1,6 @@
-from abc import ABC, abstractmethod
+from abc import abstractmethod
 
-class Parser:
+class MyParser:
 
     @abstractmethod
     def dump(self, file_path, obj):
