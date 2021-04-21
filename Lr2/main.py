@@ -2,6 +2,7 @@ import pickle_parser
 import json_parser
 import yaml_parser
 import toml_parser
+import factory
 
 class Car:
     def __init__(self, brand, model):
@@ -41,7 +42,7 @@ def sub_format_menu():
           "4 - Yaml\n")
 
 
-def json_menu():
+"""def json_menu():
     global json_object_string, json_function_string, json_class_string
     if main_input == 1:
         sub_serializing_menu()
@@ -290,7 +291,7 @@ def toml_menu():
             print(temp_class_string)
 
     if main_input == 7:
-        exit(0)
+        exit(0)"""
 
 if __name__ == "__main__":
     car = Car("BMW", "X6")
@@ -298,7 +299,8 @@ if __name__ == "__main__":
     # Little console UI(ok, may be not so little as I think firstly)
     sub_format_menu()
     second_menu_input = int(input())
-    while True:
+    obj_variant = factory.choose_format("Object", "Function", "Class")
+    """while True:
         print("1 - Сериализивать объект\n"
               "2 - Сериализовать функцию\n"
               "3 - Сериализовать класс\n"
@@ -314,5 +316,32 @@ if __name__ == "__main__":
         if second_menu_input == 3:
             toml_menu()
         if second_menu_input == 4:
-            yaml_menu()
+            yaml_menu()"""
+    if obj_variant == "Object":
+        if second_menu_input == 1:
+            factory.Factory.parse(car, "Json", obj_variant)
+        elif second_menu_input == 2:
+            factory.Factory.parse(car, "Pickle", obj_variant)
+        elif second_menu_input == 3:
+            factory.Factory.parse(car, "Toml", obj_variant)
+        elif second_menu_input == 4:
+            factory.Factory.parse(car, "Yaml", obj_variant)
+    elif obj_variant == "Function":
+        if second_menu_input == 1:
+            factory.Factory.parse(summary, "Json", obj_variant)
+        elif second_menu_input == 2:
+            factory.Factory.parse(summary, "Pickle", obj_variant)
+        elif second_menu_input == 3:
+            factory.Factory.parse(summary, "Toml", obj_variant)
+        elif second_menu_input == 4:
+            factory.Factory.parse(summary, "Yaml", obj_variant)
+    elif obj_variant == "Class":
+        if second_menu_input == 1:
+            factory.Factory.parse(Car, "Json", obj_variant)
+        elif second_menu_input == 2:
+            factory.Factory.parse(Car, "Pickle", obj_variant)
+        elif second_menu_input == 3:
+            factory.Factory.parse(Car, "Toml", obj_variant)
+        elif second_menu_input == 4:
+            factory.Factory.parse(Car, "Yaml", obj_variant)
 
