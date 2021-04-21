@@ -3,7 +3,7 @@ import yaml
 
 class YamlParser(MyParser):
 
-    def dump(self, obj, save_file_path):
+    def dump(self, save_file_path,obj):
         with open(save_file_path, "w") as file:
             yaml.dump(obj, file)
 
@@ -14,7 +14,7 @@ class YamlParser(MyParser):
     def load(self, load_file_path):
         obj = None
         with open(load_file_path, "r") as file:
-            obj = yaml.load(file, Loader=yaml.FullLoader)
+            obj = yaml.unsafe_load(file)
         return obj
 
     def loads(self, s):
