@@ -10,7 +10,7 @@ class Factory:
         parser = get_parser(format)
         if variant == "dump":
             file_path = get_file_path()
-            if format == "Json" or format == "Toml":
+            if format == "Json" or format == "Toml" or format == "Pickle" or format == "Yaml":
                 if obj_type == "Function":
                     parser.dump(parser, file_path, parser.function_to_dictionary(parser, obj))
                     temp_func = parser.load(parser, file_path)
@@ -23,12 +23,8 @@ class Factory:
                     parser.dump(parser, file_path, parser.class_to_dictionary(parser, obj))
                     temp_class = parser.load(parser, file_path)
                     print(temp_class)
-            if format == "Pickle" or format == "Yaml":
-                parser.dump(parser, file_path, obj)
-                temp = parser.load(parser, file_path)
-                print(temp)
         elif variant == "dumps":
-            if format == "Json" or format == "Toml":
+            if format == "Json" or format == "Toml" or format == "Pickle" or format == "Yaml":
                 if obj_type == "Function":
                     function_string = parser.dumps(parser, parser.function_to_dictionary(parser, obj))
                     temp_function_string = parser.loads(parser, function_string)
@@ -41,10 +37,6 @@ class Factory:
                     class_string = parser.dumps(parser, parser.class_to_dictionary(parser, obj))
                     temp_class_string = parser.loads(parser, class_string)
                     print(temp_class_string)
-            if format == "Pickle" or format == "Yaml":
-                string = parser.dumps(parser, obj)
-                temp_string = parser.loads(parser, string)
-                print(temp_string)
 
 def get_parser(file_format):
         if file_format == 'Json':
