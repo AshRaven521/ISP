@@ -1,0 +1,53 @@
+{
+    "code": {
+        "co_argcount": 2,
+        "co_cellvars": [],
+        "co_code": [
+            124,
+            0,
+            124,
+            1,
+            23,
+            0,
+            83,
+            0
+        ],
+        "co_consts": [
+            null
+        ],
+        "co_filename": "C:\\PTUIR\\4 semestr\\ISP\\help\\LR2\\Task\\test_objects.py",
+        "co_firstlineno": 76,
+        "co_flags": 67,
+        "co_freevars": [],
+        "co_kwonlyargcount": 0,
+        "co_lnotab": [
+            0,
+            1
+        ],
+        "co_name": "add",
+        "co_names": [],
+        "co_nlocals": 2,
+        "co_posonlyargcount": 0,
+        "co_stacksize": 2,
+        "co_varnames": [
+            "a",
+            "b"
+        ]
+    },
+    "globals": {
+        "add": "add<function>",
+        "__name__": "test_objects",
+        "__doc__": null,
+        "__package__": "",
+        "__file__": "C:\\PTUIR\\4 semestr\\ISP\\help\\LR2\\Task\\test_objects.py",
+        "__cached__": "C:\\PTUIR\\4 semestr\\ISP\\help\\LR2\\Task\\__pycache__\\test_objects.cpython-39.pyc",
+        "exp_hello": "Hello, world!",
+        "name": "Misha",
+        "exp_say_hello": "Hello, Misha",
+        "json_file": "func.json",
+        "pickle_file": "func.pickle",
+        "exp_add": 5,
+        "exp_factorial": 120,
+        "exp_power": 8
+    }
+}
