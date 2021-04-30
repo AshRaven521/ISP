@@ -1,23 +1,20 @@
 import pickle
-from my_parser import MyParser
+from my_parser import Parser
 
-class PickleParser(MyParser):
 
-    def dump(self, save_file_path, obj):
-        with open(save_file_path, 'wb') as file:
+class PickleParser(Parser):
+
+    def dump(self, obj, file_path):
+        with open(file_path, 'wb') as file:
             pickle.dump(obj, file)
 
-    def dumps(self, obj):
-        pickle_string = pickle.dumps(obj)
-        return pickle_string
+    def dumps(self, python_object):
+        return pickle.dumps(super().dumps(python_object))
 
-    def load(self, load_file_path):
-        with open(load_file_path, 'rb') as file:
-            load_string = pickle.load(file)
-        return load_string
+    def load(self, file_path):
+        with open(file_path, 'rb') as file:
+            obj = pickle.load(file)
+        return obj
 
-    def loads(self, stringg):
-        return pickle.loads(stringg)
-
-            
-
+    def loads(self, pickle_string):
+        return super().loads(pickle.loads(pickle_string))
