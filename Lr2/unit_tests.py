@@ -35,7 +35,7 @@ class TestParsers(unittest.TestCase):
         self.json_function = Factory.factory("Json").loads(Factory.factory("Json").dumps(testfunction))
         self.pickle_function = Factory.factory("Pickle").loads(Factory.factory("Pickle").dumps(testfunction))
         self.yaml_function = Factory.factory("Yaml").loads(Factory.factory("Yaml").dumps(testfunction))
-        self.toml_function = Factory.factory("Yaml").loads(Factory.factory("Yaml").dumps(testfunction))
+        #self.toml_function = Factory.factory("Toml").loads(Factory.factory("Toml").dumps(testfunction))
 
     def test_get(self):
         self.assertEqual(gettype("Json").__class__, Factory.factory("Json").__class__)
