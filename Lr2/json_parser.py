@@ -8,11 +8,11 @@ class JsonParser(Parser):
 
     def dumps(self, obj):
         obj = super().dumps(obj)
-        tempstr = self.dumps_wrapper(obj)
-        tempstr = tempstr.replace("None","null")
-        tempstr = tempstr.replace("\'", "\"")
-        tempstr = tempstr.replace("\\", "\\\\")
-        return tempstr
+        temp_str = self.dumps_wrapper(obj)
+        temp_str = temp_str.replace("None","null")
+        temp_str = temp_str.replace("\'", "\"")
+        temp_str = temp_str.replace("\\", "\\\\")
+        return temp_str
         #return json.dumps(super().dumps(obj), indent=4)
 
     def dumps_wrapper(self, obj):
@@ -29,8 +29,8 @@ class JsonParser(Parser):
                     if isinstance(obj[key][i], str):
                         json_string += "\"" + obj[key][i] + "\","
                     else:
-                        liststr = str(obj[key][i])
-                        json_string += "\n" + liststr + ","
+                        list_str = str(obj[key][i])
+                        json_string += "\n" + list_str + ","
                 if json_string.endswith(","):
                     json_string = json_string[: len(json_string) - 1] + "\n],\n"
                 else:
@@ -39,18 +39,18 @@ class JsonParser(Parser):
                 if isinstance(obj[key], str):
                     json_string += "\"" + key + "\"" + ": " + "\"" + obj[key] + "\"" + ", \n"
                 else:
-                    intstr = str(obj[key])
-                    if intstr == "()":
-                        intstr = "[]"
+                    int_str = str(obj[key])
+                    if int_str == "()":
+                        int_str = "[]"
                     if obj[key] is None:
-                        intstr = "[\nnull\n]"
-                    if intstr == "(None,)":
-                        intstr = "[\nnull\n]"
-                    if intstr.startswith("("):
-                        if intstr.endswith(")"):
-                            intstr = "[" + intstr[1:]
-                            intstr = intstr[:len(intstr) - 1] + "]"
-                    json_string += "\"" + key + "\"" + ": " + intstr + ", \n"
+                        int_str = "[\nnull\n]"
+                    if int_str == "(None,)":
+                        int_str = "[\nnull\n]"
+                    if int_str.startswith("("):
+                        if int_str.endswith(")"):
+                            int_str = "[" + int_str[1:]
+                            int_str = int_str[:len(int_str) - 1] + "]"
+                    json_string += "\"" + key + "\"" + ": " + int_str + ", \n"
         if json_string.endswith(", \n"):
             json_string = json_string[: len(json_string) - 3] + "\n}"
         else:
