@@ -2,10 +2,14 @@ from my_parser import Parser
 from factory import Factory
 import dis
 
+
 def sum(num1, num2):
     return num1 + num2
 
 sum_lambda = lambda lam1, lam2: lam1 + lam2
+
+def testfunction():
+    return "Hello, world!"
 
 def gettype(type):
     parser = Parser()
@@ -20,16 +24,31 @@ def gettype(type):
     return parser
 
 def main():
-    #gettype("Toml").dump(gettype("Json").load("./func.json"), "./func.toml")
 
-    gettype("Json").dump(sum, "./func.json")
-    gettype("Toml").dump(gettype("Json").load("./func2.json"), "./func.toml")
+    #Function in file
+    gettype("Json").dump(sum_lambda, "./func.json")
     gettype("Pickle").dump(sum, "func.pickle")
 
+    # Convert Json in Toml
+    gettype("Toml").dump(gettype("Json").load("./func.json"), "./func.toml")
+
+    #Lambda
     json_obj = gettype("Json").loads(gettype("Json").dumps(sum_lambda))
     print(json_obj(2, 3))
 
-    gettype("Json").dump(sum_lambda, "./func3.json")
+    #Dictionary
+    testdict = {'a': 1, 'b': 2}
+    print(gettype("Json").loads(gettype("Json").dumps(testdict)))
+
+    #Function
+    print(gettype("Json").loads(gettype("Json").dumps(testfunction)))
+    """
+    gettype("Json").dump(sum,"func.json")
+    gettype("Json").load("func.json")
+    """
+
+
+
     #На всякий случай
     #dis.show_code(sum)
 
