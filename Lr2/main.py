@@ -2,7 +2,6 @@ from my_parser import Parser
 from factory import Factory
 import dis
 
-
 def sum(num1, num2):
     return num1 + num2
 
@@ -26,31 +25,35 @@ def gettype(type):
 def main():
 
     #Function in file
-    gettype("Json").dump(sum_lambda, "./func.json")
-    gettype("Pickle").dump(sum, "func.pickle")
+    gettype("Json").dump(sum, "./func.json")
+    #gettype("Pickle").dump(sum, "func.pickle")
 
     # Convert Json in Toml
-    gettype("Toml").dump(gettype("Json").load("./func.json"), "./func.toml")
+    #gettype("Toml").dump(gettype("Json").load("./func.json"), "./func.toml")
 
     #Lambda
-    json_obj = gettype("Json").loads(gettype("Json").dumps(sum_lambda))
-    print(json_obj(2, 3))
+    #json_obj = gettype("Json").loads(gettype("Json").dumps(sum_lambda))
+    #print(json_obj(2, 3))
 
+    #Function
+    #print(gettype("Json").loads(gettype("Json").dumps(testfunction)))
+
+    #Function 2
+    gettype("Json").dump(sum, "func3.json")
+    h = gettype("Json").load('func3.json')
+    print(h(6, 3))
+
+    """
+    gettype("Json").dump(sum,"func.json")
+    gettype("Json").load("func.json")
+    
     #Dictionary
     testdict = {'a': 1, 'b': 2}
     print(gettype("Json").loads(gettype("Json").dumps(testdict)))
 
-    #Function
-    print(gettype("Json").loads(gettype("Json").dumps(testfunction)))
-    """
-    gettype("Json").dump(sum,"func.json")
-    gettype("Json").load("func.json")
-    """
-
-
-
     #На всякий случай
     #dis.show_code(sum)
+    """
 
 if __name__ == '__main__':
     main()

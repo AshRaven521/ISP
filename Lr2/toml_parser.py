@@ -10,7 +10,7 @@ class TomlParser(Parser):
             for (key, value) in obj_dict['code'].items():
                 if key == 'co_consts':
                     value = list(value)
-                    value[value.index(None)] = 0
+                    #value[value.index(None)] = 0
                     obj_dict['code'][key] = value
 
         return toml.dumps(obj_dict)
