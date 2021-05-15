@@ -8,7 +8,7 @@ class JsonParser(Parser):
     def dumps(self, obj):
         obj = super().dumps(obj)
         return self.dumps_wrapper(obj)
-        # return json.dumps(super().dumps(obj), indent=4)
+        #return json.dumps(super().dumps(obj), indent=4)
 
     def dumps_wrapper(self, obj):
         json_string = "{\n"
@@ -61,7 +61,7 @@ class JsonParser(Parser):
         if 'code' in json_string:
             return super().loads(self.json_to_function(json_string));
         else:
-            return None
+            return super().loads(self.json_to_object(json_string));
 
     tuples = ['co_consts', 'co_names', 'co_freevars', 'co_cellvars']
     lists = ['nlocals', 'co_code', 'co_lnotab', 'co_varnames']
@@ -107,14 +107,35 @@ class JsonParser(Parser):
     def string_to_collection(self, string, collection):
         string = string.replace('[', '').replace(']', '')
         arr = string.split(' ')
-        arr_val = []
+        arrval = []
         for item in arr:
             if isinstance(item, str):
                 if item.isdigit():
                     value = int(item)
-                    arr_val.append(value)
+                    arrval.append(value)
                 else:
                     value = item
                     if value != '':
-                        arr_val.append(value)
-        return arr_val
+                        arrval.append(value)
+        return arrval
+
+
+    def json_to_object(self, json_string):
+        string = re.sub('[{}\"]', '', json_string)
+        arr = string.split('\n')
+        glob = dict()
+        arr = [item for item in arr if not item == '']
+        for item in arr:
+            pair = item.split(': ')
+            pair[1] = re.sub('[,]', '', pair[1])
+            if pair[0] == 'code' or pair[0] == 'globals':
+                continue
+            if isinstance(pair[1], str):
+                if pair[1].isdigit():
+                    value = int(pair[1])
+                else:
+                    value = pair[1]
+
+            glob[pair[0]] = value
+
+        return glob

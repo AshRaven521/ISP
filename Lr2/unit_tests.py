@@ -44,19 +44,19 @@ class TestParsers(unittest.TestCase):
         self.assertEqual(gettype("Pickle").__class__, Factory.factory("Pickle").__class__)
 
     def test_dictionary(self):
-        #self.assertEqual(self.json_dict, self.checkdict)
+        self.assertEqual(self.json_dict, self.checkdict)
         self.assertEqual(self.pickle_dict, self.checkdict)
         self.assertEqual(self.yaml_dict, self.checkdict)
         self.assertEqual(self.toml_dict, self.checkdict)
 
     def test_object(self):
-        #self.assertEqual(self.json_obj, self.checkobj)
+        self.assertEqual(self.json_obj, self.checkobj)
         self.assertEqual(self.pickle_obj, self.checkobj)
         self.assertEqual(self.yaml_obj, self.checkobj)
         self.assertEqual(self.toml_obj, self.checkobj)
 
     def test_function(self):
-        #self.assertEqual(self.json_function(), self.checkfunction)
+        self.assertEqual(self.json_function(), "testing")
         self.assertEqual(self.pickle_function(), self.checkfunction)
         self.assertEqual(self.yaml_function(), self.checkfunction)
 
