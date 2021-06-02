@@ -6,4 +6,5 @@ START_MESSAGE = 'Hello!\n' \
                 '3. Wait\n' \
                 'If video larger than 49 MB you will get two or more video files(parts of one large video)\n' \
                 'Else you will get one video file\n\n' \
-                "Please, enter '/reg', if you here the first time"
+                "Please, enter '/reg', if you here the first time\n" \
+                "Or please, enter password:"
