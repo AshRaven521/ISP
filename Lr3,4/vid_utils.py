@@ -48,13 +48,9 @@ class Video:
         return formats
 
     def generate_keyboard(self):
-        """ Generate a list of InlineKeyboardButton of resolutions """
         kb = []
-
         for code, extension, resolution in self.formats:
-            kb.append([InlineKeyboardButton("{0}, {1}".format(extension, resolution),
-                                            callback_data="{} {}".format(code,
-                                                                         self.link))])
+            kb.append([InlineKeyboardButton("{0}, {1}".format(extension, resolution), callback_data="{} {}".format(code, self.link))])
         return kb
 
     def download(self, resolution_code):
