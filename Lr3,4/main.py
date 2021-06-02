@@ -39,29 +39,31 @@ class MessageReact(object):
         if self.ready_to_reference == False:
             if update.message.text == "/start":
                 self.bot_starts(bot, update)
-                #user_par = self.find_user_in_database(update.message.chat.username)
-                user_par = self.find_user_in_database("Evgeniy")
+                user_par = self.find_user_in_database(update.message.chat.username)
+                #user_par = self.find_user_in_database("Evgeniy")
                 if user_par:
                     self.user_id = user_par[0]
                     self.user_password = user_par[1]
-                bot.sendMessage(chat_id = self.mychat_id, text="Password:")
+                #bot.sendMessage(chat_id = self.mychat_id, text="Password:")
                 self.ready_to_password = True
             else:
                 if update.message.text == "/reg":
                     bot.sendMessage(chat_id=self.mychat_id, text="Please, enter your new password.")
                     self.ready_to_reg = True
+                    self.ready_to_password = False
+                    self.ready_to_reference = False
                 else:
                     if self.ready_to_reg == True:
                         user_par = self.find_user_in_database(update.message.chat.username)
-                        if not user_par:
+                        if user_par[0] == 0:
                             self.add_user_to_database(update.message.chat.username, update.message.text)
                             self.ready_to_reg = False
-                            bot.sendMessage(chat_id=self.mychat_id, text="Enter '/start' now.")
+                            #bot.sendMessage(chat_id=self.mychat_id, text="Enter '/start' now.")
                         else:
                             bot.sendMessage(chat_id=self.mychat_id, text="You are in base already. Enter '/start' please!")
                 if self.ready_to_password == True:
                     if update.message.text == self.user_password:
-                        bot.sendMessage(chat_id=self.mychat_id, text="Nice to see you! Please, input the reference.")
+                        bot.sendMessage(chat_id=self.mychat_id, text=f"Nice to see you, {update.message.chat.username}! Please, input the reference.")
                         self.ready_to_reference = True
                     else:
                         bot.sendMessage(chat_id=self.mychat_id, text="Bad password. Enter '/start' again!")
@@ -111,12 +113,12 @@ class MessageReact(object):
 
     def find_user_in_database(self, username):
         user = database.session.query(User).filter(User.username == f'{username}').all()
-        #if not user:
-        #    self.add_user_to_database(username, self.password_default)
-        #    self.find_user_in_database(username)
-        #else:
-        user_id = user[0].id
-        user_password = user[0].password
+        if user:
+            user_id = user[0].id
+            user_password = user[0].password
+        else:
+            user_id = 0
+            user_password = ""
         return [user_id, user_password]
 
     def add_link_to_database(self, name, user_id):
@@ -130,8 +132,8 @@ class MessageReact(object):
         self.add_link_to_database(name, user_id)
 
 if __name__ == "__main__":
-    messagereact = MessageReact(TOKEN)
-    messagereact.botload()
+    message_react = MessageReact(TOKEN)
+    message_react.botload()
 
 
 
