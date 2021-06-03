@@ -1,3 +1,5 @@
+from sqlalchemy.orm import relationship, backref
+
 from app import database
 
 class User(database.Model):
@@ -18,7 +20,8 @@ class Link(database.Model):
     __tablename__ = 'links'
     id = database.Column(database.Integer, primary_key=True)
     name = database.Column(database.String(200))
-    user_id = database.Column(database.Integer(), database.ForeignKey('users.id'))
+    user_id = database.Column(database.Integer, database.ForeignKey('users.id', ondelete='CASCADE'))
+    user = database.relationship('User', backref=backref('Link', passive_deletes=True))
 
     def __init__(self, name, user_id):
         self.name = name
