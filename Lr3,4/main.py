@@ -1,4 +1,7 @@
 import logging
+import time
+
+import schedule
 
 from telegram import InlineKeyboardMarkup, InlineKeyboardButton
 from telegram.ext import Updater, CallbackQueryHandler, MessageHandler, Filters, CommandHandler
@@ -22,6 +25,7 @@ class MessageReact(object):
     ready_to_reg = False
     password_default = "aaa"
     update = ""
+    bot = ""
 
     def __init__(self, bottoken):
         self.updater = Updater(token = bottoken, use_context=False)
@@ -29,11 +33,18 @@ class MessageReact(object):
         self.updater.dispatcher.add_handler(handler)
         self.updater.dispatcher.add_handler(CallbackQueryHandler(self.download_chosen_format))
 
-    def botload(self):
+
+    def bot_load(self):
         self.updater.start_polling()
 
     def bot_starts(self, bot, update):
         bot.sendMessage(chat_id = update.message.chat_id, text = START_MESSAGE)
+        self.bot = bot
+        self.update = update
+        schedule.every().day.at("22:19").do(self.notification_sending)
+        while True:
+            schedule.run_pending()
+            time.sleep(1000)
 
     def handle_message(self, bot, update):
         self.mychat_id = update.message.chat_id
@@ -57,7 +68,7 @@ class MessageReact(object):
                     if self.ready_to_reg == True:
                         user_par = self.find_user_in_database(update.message.chat.username)
                         if user_par[0] == 0:
-                            self.add_user_to_database(update.message.chat.username, update.message.text)
+                            self.add_user_to_database(update.message.chat.username, update.message.text, update.message.chat_id)
                             self.ready_to_reg = False
                             #bot.sendMessage(chat_id=self.mychat_id, text="Enter '/start' now.")
                         else:
@@ -155,7 +166,10 @@ class MessageReact(object):
             update.message.reply_text('\nAdmin panel.\nChoose user for delete:', reply_markup=reply_markup)
         return kb
 
+    def notification_sending(self):
+        self.bot.sendMessage(chat_id=self.update.message.chat_id, text="Visit us more often!\nWe will be glad to see you!")
+        #bot.answer_callback_query(update.callback_query.id, text="Visit us more often!\nWe will be glad to see you!")
 
 if __name__ == "__main__":
     message_react = MessageReact(TOKEN)
-    message_react.botload()
+    message_react.bot_load()
