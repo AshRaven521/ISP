@@ -1,4 +1,4 @@
-version: '3.8'
+version: '3.6'
 
 services:
 
@@ -15,7 +15,7 @@ services:
       MYSQL_USER: root
       MYSQL_PASSWORD: 0000
     expose:
-      - "3306"	
+      - "3306"
 
   downloadder_bot:
     build: ./
@@ -27,8 +27,8 @@ services:
       DB_PASSWORD: "${DB_PASSWORD}"
       DB_NAME: "${DB_NAME}"
       MYSQL_HOST: db
-    expose:
-      - "5000"
+    ports:
+      - "5000:5000"
     depends_on:
       - db
-    command: gunicorn mr_polyglot:app
+    command: gunicorn --bind 0.0.0.0:5000 app:app
