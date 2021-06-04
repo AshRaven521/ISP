@@ -29,12 +29,12 @@ class MessageReact(object):
 
     def __init__(self, bottoken):
         self.updater = Updater(token = bottoken, use_context=False)
-        handler = MessageHandler(Filters.text | Filters.command, self.handle_message)
-        self.updater.dispatcher.add_handler(handler)
         self.updater.dispatcher.add_handler(CallbackQueryHandler(self.download_chosen_format))
 
 
     def bot_load(self):
+        handler = MessageHandler(Filters.text | Filters.command, self.handle_message)
+        self.updater.dispatcher.add_handler(handler)
         self.updater.start_polling()
 
     def bot_starts(self, bot, update):
@@ -52,7 +52,6 @@ class MessageReact(object):
             if update.message.text == "/start":
                 self.bot_starts(bot, update)
                 user_par = self.find_user_in_database(update.message.chat.username)
-                #user_par = self.find_user_in_database("Evgeniy")
                 if user_par:
                     self.user_id = user_par[0]
                     self.user_password = user_par[1]
@@ -68,7 +67,7 @@ class MessageReact(object):
                     if self.ready_to_reg == True:
                         user_par = self.find_user_in_database(update.message.chat.username)
                         if user_par[0] == 0:
-                            self.add_user_to_database(update.message.chat.username, update.message.text, update.message.chat_id)
+                            self.add_user_to_database(update.message.chat.username, update.message.text)
                             self.ready_to_reg = False
                             #bot.sendMessage(chat_id=self.mychat_id, text="Enter '/start' now.")
                         else:
@@ -123,15 +122,15 @@ class MessageReact(object):
 
 
 
-    def add_user_to_database(self, username, password):
+    async def add_user_to_database(self, username, password):
         user = User(username, password)
-        database.session.add(user)
-        database.session.commit()
+        await database.session.add(user)
+        await database.session.commit()
         user_id = user.id
         return user_id
 
-    def find_user_in_database(self, username):
-        user = database.session.query(User).filter(User.username == f'{username}').all()
+    async def find_user_in_database(self, username):
+        user = await database.session.query(User).filter(User.username == f'{username}').all()
         if user:
             user_id = user[0].id
             user_password = user[0].password
@@ -140,35 +139,34 @@ class MessageReact(object):
             user_password = ""
         return [user_id, user_password]
 
-    def delete_user_from_db(self, userid, update):
-        database.session.query(User).filter(User.id == f'{userid}').delete()
-        database.session.commit()
-        self.admin_detected(update)
+    async def delete_user_from_db(self, userid, update):
+        await database.session.query(User).filter(User.id == f'{userid}').delete()
+        await database.session.commit()
+        await self.admin_detected(update)
 
-    def add_link_to_database(self, name, user_id):
+    async def add_link_to_database(self, name, user_id):
         link = Link(name, user_id)
-        database.session.add(link)
-        database.session.commit()
+        await database.session.add(link)
+        await database.session.commit()
 
-    def find_link_in_database(self, name, user_id):
+    async def find_link_in_database(self, name, user_id):
         #link = database.session.query(Link).filter(Link.name == f'{name}', Link.user_id == f'{user_id}').all()
         #if not link:
-        self.add_link_to_database(name, user_id)
+        await self.add_link_to_database(name, user_id)
 
-    def admin_detected(self, update):
-        user = User.query.all()
+    async def admin_detected(self, update):
+        user = await User.query.all()
         if user:
             kb = []
             for us in user:
                 kb.append([InlineKeyboardButton("{0}".format(us.username),
                                                 callback_data="{} {}".format("id",us.id))])
             reply_markup = InlineKeyboardMarkup(kb)
-            update.message.reply_text('\nAdmin panel.\nChoose user for delete:', reply_markup=reply_markup)
+            await update.message.reply_text('\nAdmin panel.\nChoose user for delete:', reply_markup=reply_markup)
         return kb
 
-    def notification_sending(self):
-        self.bot.sendMessage(chat_id=self.update.message.chat_id, text="Visit us more often!\nWe will be glad to see you!")
-        #bot.answer_callback_query(update.callback_query.id, text="Visit us more often!\nWe will be glad to see you!")
+    async def notification_sending(self):
+        await self.bot.sendMessage(chat_id=self.update.message.chat_id, text="Visit us more often!\nWe will be glad to see you!")
 
 if __name__ == "__main__":
     message_react = MessageReact(TOKEN)
