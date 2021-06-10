@@ -1,12 +1,7 @@
-FROM ubuntu
+FROM python:3.8
 
-COPY . /app
-WORKDIR /app
-
-RUN set -eu \
-    && apt-get update && apt-get install -y \
-    python3.8 \
-    python3-pip \
-    python3-venv \
-    && pip install --no-cache-dir -r requirements.txt \
-    && rm -rf /var/lib/apt/lists/*
+RUN pip3 install python-telegram-bot schedule Flask Flask-Migrate Flask-MySQL Flask-SQLAlchemy
+WORKDIR .
+COPY . .
+ENTRYPOINT ["python"]
+CMD ["main.py"]

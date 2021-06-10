@@ -1,7 +1,6 @@
 version: '3.8'
 
 services:
-
   db:
     image: mysql:5.7
     container_name: mysql
@@ -10,25 +9,17 @@ services:
       - ./db_data:/var/lib/mysql
       - ./sql:/docker-entrypoint-initdb.d
     environment:
-      MYSQL_ROOT_PASSWORD: 0000
       MYSQL_DATABASE: Lr3
-      MYSQL_USER: root
-      MYSQL_PASSWORD: 0000
+      MYSQL_USER: Van
+      MYSQL_PASSWORD: 74750207
+      MYSQL_HOST: db
     expose:
       - "3306"
 
   downloadder_bot:
-    build: ./
-    container_name: bot
+    container_name: downbot
+    build: .
+    image: python:3.8
     restart: always
-    environment:
-      API_TOKEN: "${API_TOKEN}"
-      DB_USERNAME: "${DB_USERNAME}"
-      DB_PASSWORD: "${DB_PASSWORD}"
-      DB_NAME: "${DB_NAME}"
-      MYSQL_HOST: db
-    ports:
-      - "5000:5000"
     depends_on:
       - db
-    command: gunicorn --bind 0.0.0.0:5000 app:app
