@@ -29,3 +29,5 @@ class Link(database.Model):
 
     def __repr__(self):
         return '<Links {}>'.format(self.name)
+
+database.create_all()
