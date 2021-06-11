@@ -9,6 +9,7 @@ services:
       - ./db_data:/var/lib/mysql
       - ./sql:/docker-entrypoint-initdb.d
     environment:
+      MYSQL_ROOT_PASSWORD: 0000
       MYSQL_DATABASE: Lr3
       MYSQL_USER: Van
       MYSQL_PASSWORD: 74750207
@@ -17,9 +18,8 @@ services:
       - "3306"
 
   downloadder_bot:
+    image: ashraven/downbot
     container_name: downbot
-    build: .
-    image: python:3.8
     restart: always
     depends_on:
       - db
