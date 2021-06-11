@@ -67,6 +67,7 @@ class MessageReact(object):
                         else:
                             bot.sendMessage(chat_id=self.mychat_id,
                                             text="You are in base already. Enter '/start' please!")
+                            self.ready_to_reg = False
                 if self.ready_to_password == True:
                     if update.message.text == self.user_password:
                         bot.sendMessage(chat_id=self.mychat_id,
