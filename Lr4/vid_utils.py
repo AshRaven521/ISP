@@ -1,16 +1,12 @@
-import re
 import os
 from glob import glob, escape
 from subprocess import Popen, PIPE
-from time import strftime, strptime, sleep
 from contextlib import contextmanager
-
-from telegram import InlineKeyboardButton
+from aiogram.types import InlineKeyboardButton, InlineKeyboardMarkup
 
 
 class BadLink(Exception):
     pass
-
 
 class Video:
     def __init__(self, link, init_keyboard=False):
@@ -48,9 +44,9 @@ class Video:
         return formats
 
     def generate_keyboard(self):
-        kb = []
+        kb = InlineKeyboardMarkup()
         for code, extension, resolution in self.formats:
-            kb.append([InlineKeyboardButton("{0}, {1}".format(extension, resolution), callback_data="{} {}".format(code, self.link))])
+            kb.add(InlineKeyboardButton("{0}, {1}".format(extension, resolution), callback_data="{} {}".format(code, self.link)))
         return kb
 
     def download(self, resolution_code):
